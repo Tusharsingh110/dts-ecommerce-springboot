@@ -24,4 +24,12 @@ public class Category {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                '}';
+    }
 }
