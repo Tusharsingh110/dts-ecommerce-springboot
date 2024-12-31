@@ -32,34 +32,20 @@ public class CategoryController {
     @PostMapping("/api/admin/create-category")
     //@RequestMapping(value = "/public/categories", method = RequestMethod.POST)
     public ResponseEntity<String> createCategory(@Valid @RequestBody Category category){
-        try {
-            categoryService.createCategory(category);
-            return new ResponseEntity<>("Category added successfully", HttpStatus.CREATED);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-        }
+        categoryService.createCategory(category);
+        return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/admin/delete-category/{categoryId}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId){
-        try {
-            String status = categoryService.deleteCategory(categoryId);
-                return new ResponseEntity<>(status, HttpStatus.OK);
-//            return ResponseEntity.ok(status);
-//            return ResponseEntity.status(HttpStatus.OK).body(status);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-        }
+        String status = categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
 //    @PutMapping("/api/admin/update-category/{categoryId}")
     @RequestMapping(value = "/api/admin/update-category/{categoryId}", method = RequestMethod.PUT)
-    public ResponseEntity<String> updateCategory(@PathVariable Long categoryId, @RequestBody Category category){
-        try {
-            String status = categoryService.updateCategory(categoryId, category);
-            return new ResponseEntity<>(status, HttpStatus.OK);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(), e.getStatusCode());
-        }
+    public ResponseEntity<String> updateCategory(@PathVariable Long categoryId,@Valid  @RequestBody Category category){
+        String status = categoryService.updateCategory(categoryId, category);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 }

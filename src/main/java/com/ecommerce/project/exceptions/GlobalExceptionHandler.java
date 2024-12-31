@@ -1,8 +1,6 @@
 package com.ecommerce.project.exceptions;
 
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,17 +25,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Map<String, String>>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> myException(Exception e) {
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<Map<String, String>> APIException(APIException e) {
         Map<String, String> response = new HashMap<>();
         response.put("error", "true");
         response.put("message", e.getMessage());
-        return new ResponseEntity<Map<String, String>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<Map<String, String>>(response, HttpStatus.BAD_REQUEST);
     }
 
-//
-//    @ExceptionHandler(ConfigDataResourceNotFoundException.class)
-//    public ResponseEntity<String> myResourceNotFoundException(ConfigDataResourceNotFoundException e) {
-//        return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, String>> myResourceNotFoundException(ResourceNotFoundException e) {
+        Map<String, String> response = new HashMap<>();
+        String message = e.getMessage();
+        String field = e.field;
+        response.put("error", "true");
+        response.put(field, message);
+        return new ResponseEntity<Map<String, String>>(response, HttpStatus.NOT_FOUND);
+    }
 }
